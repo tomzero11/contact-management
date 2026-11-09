@@ -1,0 +1,178 @@
+import { useState } from "react"
+import { Link, useParams } from "react-router"
+import { useEffectOnce, useLocalStorage } from "react-use"
+import { detailContact, updateContact } from "../../lib/api/contactApi"
+import { alertError, alertSuccess } from "../../lib/Alert"
+
+const EditContact = () => {
+
+    const [first_name, setFirstName] = useState("")
+    const [last_name, setLastName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [token] = useLocalStorage("token", "")
+    const {id} = useParams()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const fetchDetailContact = async () => {
+        try {
+            const response = await detailContact({
+                token,
+                id
+            })
+            const responseBody = await response.json()
+            console.log(responseBody)
+            if (response.ok) {
+                setFirstName(responseBody.data.first_name)
+                setLastName(responseBody.data.last_name)
+                setEmail(responseBody.data.email)
+                setPhone(responseBody.data.phone)
+            } else {
+                await alertError("Fail fetch detail contact")
+            }
+        } catch (error) {
+            await alertError(error.message)
+        }
+    }
+
+    useEffectOnce(() => {
+        fetchDetailContact()
+            .then(() => console.log("Success fetch detail contact"))
+    }, [])
+
+    
+    const handleSubmitChange = async (e) =>{
+        e.preventDefault()
+        try {
+            setIsLoading(true)
+            const response = await updateContact({
+                first_name,
+                last_name,
+                email,
+                phone,
+                id,
+                token
+            })
+            const responseBody = await response.json()
+            console.log(responseBody)
+            if (response.ok) {
+                await alertSuccess("Update contact successfully")
+            } else {
+                await alertError(responseBody.errors)
+            }
+        } catch (errors) {
+            await alertError(errors.message)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+
+
+    return (
+    <div>
+        {/* Main content */}
+        <main className="container mx-auto px-4 py-8 flex-grow">
+            <div className="flex items-center mb-6">
+            <Link to="/dashboard/contacts" className="text-blue-400 hover:text-blue-300 mr-4 flex items-center transition-colors duration-200">
+                <i className="fas fa-arrow-left mr-2" /> Back to Contacts
+            </Link>
+            <h1 className="text-2xl font-bold text-white flex items-center">
+                <i className="fas fa-user-edit text-blue-400 mr-3" /> Edit Contact
+            </h1>
+            </div>
+            <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 overflow-hidden max-w-2xl mx-auto animate-fade-in">
+            <div className="p-8">
+                <form onSubmit={handleSubmitChange}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <div>
+                        <label htmlFor="first_name" className="block text-gray-300 text-sm font-medium mb-2">First Name</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i className="fas fa-user-tag text-gray-500" />
+                            </div>
+                            <input 
+                                type="text" 
+                                id="first_name" 
+                                name="first_name" 
+                                className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" 
+                                placeholder="Enter first name" 
+                                value={first_name}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required 
+                            />
+                        </div>
+                        </div>
+                        <div>
+                        <label htmlFor="last_name" className="block text-gray-300 text-sm font-medium mb-2">Last Name</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i className="fas fa-user-tag text-gray-500" />
+                            </div>
+                            <input 
+                                type="text" 
+                                id="last_name" 
+                                name="last_name" 
+                                className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" 
+                                placeholder="Enter last name" 
+                                value={last_name}
+                                onChange={(e) => setLastName (e.target.value)}
+                                required 
+                            />
+                        </div>
+                        </div>
+                    </div>
+                    <div className="mb-5">
+                        <label htmlFor="email" className="block text-gray-300 text-sm font-medium mb-2">Email</label>
+                        <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i className="fas fa-envelope text-gray-500" />
+                        </div>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" 
+                            placeholder="Enter email address" 
+                            value={email}
+                            onChange={(e) => setEmail (e.target.value)}
+                            required 
+                        />
+                        </div>
+                    </div>
+                    <div className="mb-6">
+                        <label htmlFor="phone" className="block text-gray-300 text-sm font-medium mb-2">Phone</label>
+                        <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i className="fas fa-phone text-gray-500" />
+                        </div>
+                        <input 
+                            type="text" 
+                            id="phone" 
+                            name="phone" 
+                            className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" 
+                            placeholder="Enter phone number" 
+                            value={phone}
+                            onChange={(e) => setPhone (e.target.value)}
+                            required 
+                        />
+                        </div>
+                    </div>
+                    <div className="flex justify-end space-x-4">
+                        <Link to="/dashboard/contacts" className="px-5 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center shadow-md">
+                            <i className="fas fa-times mr-2" /> Cancel
+                        </Link>
+                        <button disabled={isLoading} type="submit" className="px-5 py-3 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-lg transform hover:-translate-y-0.5 flex items-center">
+                            <i className="fas fa-save mr-2" /> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </main>
+    </div>
+
+    )
+}
+
+export default EditContact
