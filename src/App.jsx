@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router"
 import Layout from "./components/Layout"
-import Register from "./components/users/Register"
-import Login from "./components/users/Login"
+// import AuthLayout from "./components/layout/AuthLayout"
+// import Register from "./components/users/Register"
+// import Login from "./components/users/Login"
+import Login from "./pages/login"
 import DashboardLayout from "./components/DashboardLayout"
 import UserProfile from "./components/users/UserProfile"
 import UserLogout from "./components/users/UserLogout"
@@ -12,20 +14,26 @@ import DetailContact from "./components/contact/DetailContact"
 import AddAddress from "./components/address/AddAddress"
 import EditAddress from "./components/address/EditAddress"
 import ProtectedRoute from "./components/ProtectedRoute"
+import GuestRoute from "./routes/GuestRoute"
+
+//! Update 
+import Register from "./pages/register"
+
 function App() {
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<Layout />}>
+          <Route element={<GuestRoute />}>
+            <Route element={<Layout />}>
             <Route path="/register" element={< Register/>}/>
             <Route path="/login" element={< Login/>}/>
             <Route path="/" element={<ProtectedRoute />} />
           </Route>
+          </Route>
 
           <Route path="/dashboard" element={<DashboardLayout />}>
-
             <Route path="users">
               <Route path="profile" element={< UserProfile />} />
               <Route path="logout" element={< UserLogout />} />

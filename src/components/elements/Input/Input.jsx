@@ -19,8 +19,8 @@ const Input = ({
                 onChange={onChange} 
                 value={value}
                 placeholder={placeholder}
-                className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none 
-                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter your username" 
+                className="w-full pl-10 pr-3 py-3 font-inter bg-slate-100 bg-opacity-50 border font-semibold border-gray-600 text-slate-600 rounded-lg focus:outline-none 
+                            focus:ring-2 focus:ring-ink-black focus:border-ink-black transition-all duration-200 placeholder:opacity-70" 
             />
         </div>
     )

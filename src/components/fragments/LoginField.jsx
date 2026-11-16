@@ -2,23 +2,30 @@ import FormInput from "../elements/Input/Index"
 
 
 
-const FormLogin = ({value, onChange, id, label, placeholder, type}) => {
+const LoginField = ({
+    value, 
+    onChange, 
+    id, 
+    label, 
+    placeholder, 
+    name,
+    type,
+    required
+}) => {
     return (
         <div className="mb-2">
-            <form action="">
                 <FormInput 
                     id={id}
                     label={label}
                     name={name}
                     onChange={onChange}
                     placeholder={placeholder}
-                    required={true}
+                    required={required}
                     type={type}
                     value={value}
                 />
-            </form>
         </div>
     )
 }
 
-export default FormLogin
+export default LoginField

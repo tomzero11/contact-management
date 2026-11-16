@@ -39,7 +39,7 @@ const DashboardLayout = () => {
             </div>
         </header>
         {/* Main content */}
-        <main className="container bg-gray-800 mx-auto px-4 py-8 grow">
+        <main className="container bg-cream mx-auto px-4 py-8 grow">
             <Outlet />
             {/* Footer */}
             <div className="mt-10 mb-6 text-center text-gray-400 text-sm animate-fade-in">
