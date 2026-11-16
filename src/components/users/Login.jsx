@@ -4,6 +4,8 @@ import { Link } from "react-router"
 import { useLocalStorage } from "react-use"
 import { userLogin } from "../../lib/api/userApi"
 import { alertError } from "../../lib/Alert"
+import FormLogin from "../fragments/FormLogin"
+import PersonIcon from '@mui/icons-material/Person';
 
 const Login = () => {
 
@@ -43,21 +45,43 @@ const Login = () => {
         <div className="text-center mb-8">
             <div className="inline-block p-3 bg-gradient rounded-full mb-4">
             <i className="fas fa-address-book text-3xl text-white" />
-            </div>
-            <h1 className="text-3xl font-bold text-white">Contact Management</h1>
+            </div> 
+            <h1 className="text-3xl fFormInputont-bold text-white">Contact Management</h1>
             <p className="text-gray-300 mt-2">Sign in to your account</p>
         </div>
         <form onSubmit={handleSubmit}>
             <div className="mb-5">
-            <label htmlFor="username" className="block text-gray-300 text-sm font-medium mb-2">Username</label>
+            {/* <label htmlFor="username" className="block text-gray-300 text-sm font-medium mb-2">Username</label>
             <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i className="fas fa-user text-gray-500" />
+                    <i className="fas fa-user text-gray-500" />
                 </div>
                 <input type="text" id="username" name="username" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter your username" required onChange={(e) => setUserName (e.target.value)} />
+            </div> */}
+            <div className="relative">
+                <FormLogin 
+                    id="username"
+                    label="Username"
+                    type="text"
+                    value={username}
+                    placeholder="Enter your name"
+                    onChange={(e) => setUserName(e.target.value)}
+                />
+                <PersonIcon className="text-slate-200 w-10 absolute top-10 left-2"/>
+            </div>
+            <div className="relative">
+                <FormLogin 
+                    id="password"
+                    label="Password"
+                    type="password"
+                    value={password}
+                    placeholder="****"
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <PersonIcon className="text-slate-200 w-10 absolute top-10 left-2"/>
             </div>
             </div>
-            <div className="mb-6">
+            {/* <div className="mb-6">
             <label htmlFor="password" className="block text-gray-300 text-sm font-medium mb-2">Password</label>
             <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -65,7 +89,7 @@ const Login = () => {
                 </div>
                 <input type="password" id="password" name="password" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter your password" required onChange={(e) => setPassword(e.target.value)}/>
             </div>
-            </div>
+            </div> */}
             <div className="mb-6">
             <button disabled={isLoading} type="submit" className="w-full bg-gradient text-white py-3 px-4 rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-lg transform hover:-translate-y-0.5">
                 <i className="fas fa-sign-in-alt mr-2" /> Sign In
